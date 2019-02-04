@@ -1,0 +1,45 @@
+@import url('vuetify/dist/vuetify.min.css');
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#__nuxt {
+  height: 100%;
+}
+
+#__layout {
+  height: 100%;
+}
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}
+
+.background1 {
+  background: url('~static/1.png');
+  background-size: cover;
+}
+.background2 {
+  background: url('~static/2.png');
+  background-size: cover;
+}
+.background3 {
+  background: url('~static/3.png');
+  background-size: cover;
+}
+.background4 {
+  background: url('~static/4.png');
+  background-size: cover;
+}
+.background5 {
+  background: url('~static/5.png');
+  background-size: cover;
+}
