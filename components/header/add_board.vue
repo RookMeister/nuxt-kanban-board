@@ -26,15 +26,10 @@ export default {
     }
   },
   methods: {
-    async createdBoard() {
-      try {
-        const user_id = this.$store.state.auth.user._id
-        await this.$axios({ url: 'boards', method: 'POST', data: { name: this.boardName }, params: { user_id: user_id } })
-        this.$toast.success('Доска создана')
-        this.$emit('close')
-      } catch (e) {
-        this.$toast.error('Error', { icon: 'error' })
-      }
+    createdBoard() {
+      this.$store.dispatch('CREATED_BOARD', this.boardName)
+      this.$emit('close')
+      this.boardName = null
     }
   }
 }

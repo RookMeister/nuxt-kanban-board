@@ -11,7 +11,7 @@
             <v-list-tile-title> {{ item.name }} </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-for="(child, i) in item.child" :key="i" :to="`/boards/${child._id}`">
+        <v-list-tile v-for="(child, i) in item.child" :key="i" :to="`/board/${child._id}`">
           <v-list-tile-action>
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
@@ -19,7 +19,11 @@
             <v-list-tile-title>{{ child.name }}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-icon style="cursor: pointer;" :class="child.favourites ? 'yellow--text' : null" @click.prevent="child.favourites = !child.favourites">star_border</v-icon>
+            <v-icon
+                style="cursor: pointer;"
+                :class="child.favourites ? 'yellow--text' : null"
+                @click.stop.prevent="favourites(child)"
+            >star_border</v-icon>
           </v-list-tile-action>
         </v-list-tile>
       </v-list-group>
@@ -37,11 +41,6 @@
 
 <script>
   export default {
-    data() {
-      return {
-        fav: false
-      }
-    },
     computed: {
       menu() {
         return [{
@@ -59,6 +58,12 @@
             child: this.$store.state.boards
           }
         ]
+      }
+    },
+    methods: {
+      favourites: function (board) {
+        board.favourites = !board.favourites
+        this.$store.dispatch('FAVOURITES_BOARD', board)
       }
     }
   }

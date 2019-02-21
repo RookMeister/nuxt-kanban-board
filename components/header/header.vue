@@ -9,15 +9,17 @@
         <v-btn small color="blue darken-2" slot="activator"> <v-icon dark>dashboard</v-icon> </v-btn>
       </v-menu
     -->
-    <v-btn small icon flat color="blue darken-2"><v-icon dark class="white--text">search</v-icon></v-btn>
+    <!-- <v-btn small icon flat color="blue darken-2"><v-icon dark class="white--text">search</v-icon></v-btn> -->
     <v-spacer></v-spacer>
     <v-toolbar-title class="ma-0">
       <v-layout column> <span>Trello</span> </v-layout>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn flat icon small color="blue darken-2" @click="button = !button"><v-icon dark class="white--text">add</v-icon></v-btn>
-    <v-btn flat icon small color="blue darken-2"><v-icon dark class="white--text">notifications</v-icon></v-btn>
-    <v-menu v-model="menuUser" :close-on-content-click="false" offset-x>
+    <v-btn flat icon small color="blue darken-2" @click="button = !button">
+      <v-icon dark class="white--text">add</v-icon>
+    </v-btn>
+    <!-- <v-btn flat icon small color="blue darken-2"><v-icon dark class="white--text">notifications</v-icon></v-btn> -->
+    <v-menu v-model="menuUser" :close-on-content-click="false" nudge-bottom="48" offset-x>
       <menu_user :pic="picture" />
       <v-avatar slot="activator" style="margin: 6px;" size="40"><v-img :src="picture"/></v-avatar>
     </v-menu>

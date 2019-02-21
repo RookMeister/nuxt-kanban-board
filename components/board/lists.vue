@@ -5,12 +5,12 @@
         <div class="list-header">
           <v-textarea full-width hide-details auto-grow rows="1" row-height="5" v-model="list.name" style="font-size: 20px;line-height: 20px;" @blur="updateList(list)"></v-textarea>
           <v-spacer></v-spacer>
-          <v-btn icon flat small @click="deleteList(list, i)">
+          <v-btn icon flat small @click="deleteList(list)">
             <v-icon>{{ 'delete' }}</v-icon>
           </v-btn>
         </div>
         <cards :id="list._id"/>
-        <div class="list-footer"><buttonCard/></div>
+        <div class="list-footer"><buttonCard :id="list._id"/></div>
       </div>
     </div>
     <div class="list-board">
@@ -18,7 +18,7 @@
       <div v-if="button == true">
         <v-textarea hint solo v-model="nameList" rows="2" label="Ведите название списка" hide-details no-resize></v-textarea>
         <v-list-tile>
-          <v-btn block small color="grey lighten-1" @click="created()" style="width:100%">Добавить список</v-btn>
+          <v-btn block small color="grey lighten-1" @click="createList()" style="width:100%">Добавить список</v-btn>
           <v-btn icon flat small @click="button = !button">
             <v-icon>{{ 'close' }}</v-icon>
           </v-btn>
@@ -29,19 +29,17 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 import cards from './cards.vue'
 import button from './button.vue'
 
 export default {
   components: {
-    draggable,
     cards: cards,
     buttonCard: button
   },
   data() {
     return {
-      nameList: '',
+      nameList: null,
       button: false
     }
   },
@@ -56,14 +54,19 @@ export default {
     }
   },
   methods: {
-    created: function() {
-      const board_id = this.$router.params.id
-      this.lists.push({ name: this.nameList })
+    createList: function() {
+      const board_id = this.$router.currentRoute.params.id
+      // this.lists.push({ name: this.nameList })
+      this.button = !this.button
       this.$store.dispatch('CREATED_LIST', { name: this.nameList, board_id })
       this.nameList = null
-      this.button = !this.button
     },
-  },
+    // deleteList: function() {
+    //   const board_id = this.$router.currentRoute.params.id
+    //   // this.lists.push({ name: this.nameList })
+    //   this.$store.dispatch('CREATED_LIST', { name: this.nameList, board_id })
+    // }
+  }
 }
 </script>
 

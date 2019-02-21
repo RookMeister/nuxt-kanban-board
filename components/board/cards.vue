@@ -11,24 +11,20 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 
 export default {
   props:['id'],
-  components: {
-    draggable
+  data() {
+    return {
+      nameCard: null,
+      button: false
+    }
   },
   computed: {
     cards: {
       get() {
         return this.$store.getters.cards(this.id)
       }
-    }
-  },
-  data() {
-    return {
-      nameCard: '',
-      button: false
     }
   }
 }

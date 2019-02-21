@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import lists from '~/components/boards/lists.vue'
+import lists from '~/components/board/lists.vue'
 
 export default {
   components: {

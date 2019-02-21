@@ -102,7 +102,7 @@ export default {
             }
           })
           .then(res => {
-            this.$toast.success('Logged In!')
+            this.$toast.success('Logged In!', { icon: 'done' })
           })
       } catch (e) {
         this.$toast.error('Error', { icon: 'error' })

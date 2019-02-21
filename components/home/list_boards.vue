@@ -8,7 +8,7 @@
       <v-layout wrap row style="max-width: 1250px;">
         <v-flex v-for="(child, i) in item.child" :key="i" d-flex xs12 sm6 md4 lg3>
           <v-card
-            :to="`/boards/${child._id}`"
+            :to="`/board/${child._id}`"
             color="blue-grey darken-2"
             class="white--text"
             style="cursor: pointer;margin-right: 4%;margin: 0 4% 8px 0;height: 100px;"
@@ -17,11 +17,15 @@
             <v-card-title primary class="title">
               {{ child.name }}
               <v-spacer></v-spacer>
-              <v-icon style="cursor: pointer;" class="white--text" @click.stop="delBoard(child)">{{ 'delete' }}</v-icon>
+              <v-icon style="cursor: pointer;" class="white--text" @click.stop.prevent="del(child)">{{ 'delete' }}</v-icon>
             </v-card-title>
             <v-card-actions class="pa-3">
               <v-spacer></v-spacer>
-              <v-icon style="cursor: pointer;" :class="child.favourites ? 'yellow--text' : 'white--text'" @click.stop="child.favourites = !child.favourites">star_border</v-icon>
+              <v-icon
+                  style="cursor: pointer;"
+                  :class="child.favourites ? 'yellow--text' : 'white--text'"
+                  @click.stop.prevent="favourites(child)"
+              >star_border</v-icon>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -46,6 +50,15 @@ export default {
           child: this.$store.state.boards
         }
       ]
+    }
+  },
+  methods: {
+    favourites: function (board) {
+      board.favourites = !board.favourites
+      this.$store.dispatch('FAVOURITES_BOARD', board)
+    },
+    del: function (board) {
+      this.$store.dispatch('DELETE_BOARD', board)
     }
   }
 }
