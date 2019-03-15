@@ -29,11 +29,13 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import cards from './cards.vue'
 import button from './button.vue'
 
 export default {
   components: {
+    draggable,
     cards: cards,
     buttonCard: button
   },
@@ -56,16 +58,16 @@ export default {
   methods: {
     createList: function() {
       const board_id = this.$router.currentRoute.params.id
-      // this.lists.push({ name: this.nameList })
       this.button = !this.button
       this.$store.dispatch('CREATED_LIST', { name: this.nameList, board_id })
       this.nameList = null
     },
-    // deleteList: function() {
-    //   const board_id = this.$router.currentRoute.params.id
-    //   // this.lists.push({ name: this.nameList })
-    //   this.$store.dispatch('CREATED_LIST', { name: this.nameList, board_id })
-    // }
+    updateList: function(list) {
+      this.$store.dispatch('UPDATE_LIST', list)
+    },
+    deleteList: function(list) {
+      this.$store.dispatch('DELETE_LIST', list)
+    }
   }
 }
 </script>
