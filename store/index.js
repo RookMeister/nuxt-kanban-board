@@ -17,8 +17,14 @@ const store = () => new Vuex.Store({
     boards: state => {
       if (state.boards) return state.boards.filter(board => board.favourites === true)
     },
+    lists: state => {
+      if (state.lists) return state.lists.sort((a,b) => a.pos - b.pos)
+    },
     cards: state => id => {
-      if (state.cards) return state.cards.filter(card => card.list_id === id)
+      if (state.cards) {
+        let cards = state.cards.filter(card => card.list_id === id)
+        return cards.sort((a,b) => a.pos - b.pos)
+      }
     }
   },
 
@@ -151,6 +157,14 @@ const store = () => new Vuex.Store({
         this.$toast.error('Error', {icon: 'error'})
       }
     },
+    DAD_LIST({ commit, dispatch }, value) {
+      value.forEach((el,i) => {
+        if (el.pos != i+1){
+          el.pos = i+1
+          dispatch('UPDATE_LIST', el)
+        }
+      })
+    },
     //////Методы CARDS/////////
     async GET_CARDS({ commit }, board_id) {
       try {
@@ -219,16 +233,15 @@ const store = () => new Vuex.Store({
         this.$toast.error('Error', {icon: 'error'})
       }
     },
-
-    // UPDATE_LIST(context, state) {
-
-    // },
-    
-    // DRAG_AND_DROP_LIST(context, state) {
-
-    // },
-    // DRAG_AND_DROP_CARD(context, state) {
-    // }
+    DAD_CARD({ commit, dispatch }, value) {
+      value.cards.forEach((el,i) => {
+        if (el.list_id != value.id || el.pos != i+1){
+          el.list_id = value.id
+          el.pos = i+1
+          dispatch('UPDATE_CARD', el)
+        }
+      })
+    },
   },
 
   mutations: {

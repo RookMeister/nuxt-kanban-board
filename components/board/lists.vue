@@ -3,7 +3,7 @@
     <div class="list-board list" v-for="(list, i) in lists" :key="i">
       <div class="list-content">
         <div class="list-header">
-          <v-textarea full-width hide-details auto-grow rows="1" row-height="5" v-model="list.name" style="font-size: 20px;line-height: 20px;" @blur="updateList(list)"></v-textarea>
+          <v-textarea full-width hide-details auto-grow rows="1" row-height="5" v-model="list.name" style="font-size: 20px;line-height: 20px;" @change="updateList(list)"></v-textarea>
           <v-spacer></v-spacer>
           <v-btn icon flat small @click="deleteList(list)">
             <v-icon>{{ 'delete' }}</v-icon>
@@ -48,11 +48,11 @@ export default {
   computed: {
     lists: {
       get() {
-        return this.$store.state.lists
-      }
-      // set(value) {
-      //   this.$store.dispatch('DragAndDropLists', {context: this, list: value})
-      // },
+        return this.$store.getters.lists
+      },
+      set(value) {
+        this.$store.dispatch('DAD_LIST', value)
+      },
     }
   },
   methods: {
