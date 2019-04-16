@@ -11,7 +11,8 @@
             <v-list-tile-title> {{ item.name }} </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-for="(child, i) in item.child" :key="i" :to="`/board/${child._id}`">
+        <draggable v-model="boardsFav" :options="{ draggable: '.boardsFav', chosenClass: 'chosen' }">
+        <v-list-tile v-for="(child, i) in item.child" :key="i" :to="`/board/${child._id}`" :class="item.class">
           <v-list-tile-action>
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
@@ -26,6 +27,7 @@
             >star_border</v-icon>
           </v-list-tile-action>
         </v-list-tile>
+        </draggable>
       </v-list-group>
       <v-list-tile v-else :key="item.name">
         <v-list-tile-action>
@@ -40,7 +42,12 @@
 </template>
 
 <script>
+  import draggable from 'vuedraggable'
+
   export default {
+    components: {
+      draggable,
+    },
     computed: {
       menu() {
         return [{
@@ -50,20 +57,36 @@
           {
             name: 'Избранные',
             icon: 'star_border',
-            child: this.$store.getters.boards
+            class: 'boardsFav',
+            child: this.boardsFav
           },
           {
             name: 'Персональные доски',
             icon: 'dashboard',
-            child: this.$store.state.boards
+            class: 'boards',
+            child: this.boards
           }
         ]
+      },
+      boardsFav: {
+        get() {
+          return this.$store.getters.boardsFav
+        },
+        set(value) {
+          console.log(value)
+          this.$store.dispatch('DAD_BOARD', value)
+        }
+      },
+      boards: {
+        get() {
+          return this.$store.getters.boardsAll
+        }
       }
     },
     methods: {
       favourites: function (board) {
         board.favourites = !board.favourites
-        this.$store.dispatch('FAVOURITES_BOARD', board)
+        this.$store.dispatch('UPDATE_BOARD', board)
       }
     }
   }

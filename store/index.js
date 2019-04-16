@@ -10,12 +10,25 @@ const store = () => new Vuex.Store({
     cards: null,
     lists: null,
     loading: false,
-    drawer: false
+    drawer: false,
+    newBoard: false
   },
 
   getters: {
-    boards: state => {
-      if (state.boards) return state.boards.filter(board => board.favourites === true)
+    boardsFav: state => {
+      if (state.boards) {
+        let boards = state.boards.filter(board => board.favourites === true)
+        return boards.sort((a,b) => a.pos - b.pos)
+      }
+    },
+    boardsAll: state => {
+      if (state.boards) {
+        return state.boards.sort(function (a, b) {
+          if (a.name > b.name) return 1
+          if (a.name < b.name) return -1
+          return 0
+        })
+      }
     },
     lists: state => {
       if (state.lists) return state.lists.sort((a,b) => a.pos - b.pos)
@@ -29,6 +42,9 @@ const store = () => new Vuex.Store({
   },
 
   actions: {
+    OPEN_DIALOG ({ commit }, value) {
+      commit('OPEN_DIALOG', value)
+    },
     //////Методы BOARDS/////////
     async nuxtServerInit ({ dispatch } , { context }) {
       const user_id = this.$auth.user ? this.$auth.user.id : null
@@ -79,7 +95,7 @@ const store = () => new Vuex.Store({
         this.$toast.error('Error', {icon: 'error'})
       }
     },
-    async FAVOURITES_BOARD({ state }, board) {
+    async UPDATE_BOARD({ state }, board) {
       try {
         const user_id = this.$auth.user.id
         await this.$axios({
@@ -88,9 +104,18 @@ const store = () => new Vuex.Store({
           data: board,
           params: { user_id }
         })
+        this.$toast.success('Доска изменена', {icon: 'done'})
       } catch (e) {
         this.$toast.error('Error', {icon: 'error'})
       }
+    },
+    DAD_BOARD({ dispatch }, value) {
+      value.forEach((el,i) => {
+        if (el.pos != i){
+          el.pos = i
+          dispatch('UPDATE_BOARD', el)
+        }
+      })
     },
     //////Методы LISTS/////////
     async GET_LISTS({ commit }, board_id) {
@@ -152,15 +177,15 @@ const store = () => new Vuex.Store({
           data: list,
           params: { user_id, board_id, list_id }
         })
-        this.$toast.success('Список изменена', {icon: 'done'})
+        this.$toast.success('Список изменён', {icon: 'done'})
       } catch (e) {
         this.$toast.error('Error', {icon: 'error'})
       }
     },
     DAD_LIST({ commit, dispatch }, value) {
       value.forEach((el,i) => {
-        if (el.pos != i+1){
-          el.pos = i+1
+        if (el.pos != i){
+          el.pos = i
           dispatch('UPDATE_LIST', el)
         }
       })
@@ -235,9 +260,9 @@ const store = () => new Vuex.Store({
     },
     DAD_CARD({ commit, dispatch }, value) {
       value.cards.forEach((el,i) => {
-        if (el.list_id != value.id || el.pos != i+1){
+        if (el.list_id != value.id || el.pos != i){
           el.list_id = value.id
-          el.pos = i+1
+          el.pos = i
           dispatch('UPDATE_CARD', el)
         }
       })
@@ -262,7 +287,10 @@ const store = () => new Vuex.Store({
     },
     DRAWER(state, payload) {
       state.drawer = payload
-    }
+    },
+    OPEN_DIALOG (state, payload) {
+      state.newBoard = payload
+    },
   }
 })
 

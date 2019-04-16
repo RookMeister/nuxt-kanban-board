@@ -52,7 +52,7 @@ export default {
       },
       set(value) {
         this.$store.dispatch('DAD_LIST', value)
-      },
+      }
     }
   },
   methods: {

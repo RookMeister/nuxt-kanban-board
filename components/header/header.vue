@@ -15,7 +15,7 @@
       <v-layout column> <span>Trello</span> </v-layout>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn flat icon small color="blue darken-2" @click="button = !button">
+    <v-btn flat icon small color="blue darken-2" @click="dialog = !dialog">
       <v-icon dark class="white--text">add</v-icon>
     </v-btn>
     <!-- <v-btn flat icon small color="blue darken-2"><v-icon dark class="white--text">notifications</v-icon></v-btn> -->
@@ -23,7 +23,7 @@
       <menu_user :pic="picture" />
       <v-avatar slot="activator" style="margin: 6px;" size="40"><v-img :src="picture"/></v-avatar>
     </v-menu>
-    <add_board @close="close" :button="button" />
+    <add_board />
   </v-toolbar>
   <v-navigation-drawer v-model="drawer" absolute temporary> <menu_boards /> </v-navigation-drawer>
 </div>
@@ -47,6 +47,14 @@ export default {
       set(value) {
         return this.$store.commit('DRAWER', value)
       }
+    },
+    dialog: {
+      get() {
+        return this.$store.state.newBoard
+      },
+      set(value) {
+        this.$store.dispatch('OPEN_DIALOG', value)
+      }
     }
   },
   components: {
@@ -56,14 +64,8 @@ export default {
   },
   data() {
     return {
-      button: false,
       menuBoard: false,
       menuUser: false
-    }
-  },
-  methods: {
-    close() {
-      this.button = !this.button
     }
   }
 }
