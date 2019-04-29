@@ -49,7 +49,7 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'http://localhost:3001/api'
+    baseURL: 'https://app-node-kanban.herokuapp.com/api'//'http://localhost:3001/api'
   },
 
   router: {

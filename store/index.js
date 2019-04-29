@@ -24,8 +24,8 @@ const store = () => new Vuex.Store({
     boardsAll: state => {
       if (state.boards) {
         return state.boards.sort(function (a, b) {
-          if (a.name > b.name) return 1
-          if (a.name < b.name) return -1
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1
+          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1
           return 0
         })
       }
@@ -122,7 +122,7 @@ const store = () => new Vuex.Store({
       try {
         const user_id = this.$auth.user.id
         const { data } = await this.$axios({
-          url: 'http://localhost:3001/api/list',
+          url: 'list',
           method: 'GET',
           params: { user_id, board_id}
         })
@@ -138,7 +138,7 @@ const store = () => new Vuex.Store({
         const name = params.name
         state.lists.push({ name , board_id, user_id })
         await this.$axios({
-          url: 'http://localhost:3001/api/list',
+          url: 'list',
           method: 'POST',
           params: { user_id, board_id},
           data: { name }
@@ -195,7 +195,7 @@ const store = () => new Vuex.Store({
       try {
         const user_id = this.$auth.user.id
         const { data } = await this.$axios({
-          url: 'http://localhost:3001/api/card',
+          url: 'card',
           method: 'GET',
           params: { user_id, board_id}
         })
