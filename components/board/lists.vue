@@ -91,7 +91,7 @@ export default {
 }
 
 .list-board {
-  height: 100%;
+  /* height: 100%; */
   width: 272px;
   margin: 0 4px;
   box-sizing: border-box;
@@ -102,7 +102,7 @@ export default {
 
 .list-content {
   background-color: #dfe3e6;
-  border-radius: 3px;
+  border-radius: 5px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -134,5 +134,9 @@ export default {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.v-text-field__slot {
+  align-items: center;
 }
 </style>
